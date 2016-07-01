@@ -1,0 +1,6 @@
+; SimpleBlock.def : Declares the module parameters for the DLL.
+
+EXPORTS
+	SimulationStep	
+	SimulationBegin	
+	SimulationEnd	
