@@ -1,0 +1,37 @@
+import time
+import subprocess
+
+on = '1'
+off = '0'
+frequency = 60
+while True:
+    flag = 0
+    try:
+        fp = open("PSIM_out.dat","r")
+        f = fp.readline()
+        dr = fp.readline()
+        fp.close()
+        #print dr
+        relay_control_variable = float(dr)
+        #print "relay control var"
+        #print relay_control_variable
+        frequency = float(f)
+        #print "frequency"
+        #print frequency
+    except:
+        flag = 1
+        print "error"
+    if frequency >= 60:
+        subprocess.call("echo 1 > /sys/devices/gpio-leds/leds/wrtnode:blue:indicator/brightness",shell=True)
+    elif frequency < 60:
+        subprocess.call("echo 0 > /sys/devices/gpio-leds/leds/wrtnode:blue:indicator/brightness",shell=True)
+    if relay_control_variable < 500:
+                dr += ' 1'
+    elif relay_control_variable > 500:
+                dr += ' 0'
+    print dr
+    if flag == 0:
+        fp2 = open("WRT_out.dat","w")
+        fp2.write(dr);
+        fp2.close()
+    time.sleep(.09)
